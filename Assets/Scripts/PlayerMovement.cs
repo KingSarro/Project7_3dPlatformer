@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour{
     private Vector3 movementVector3 = Vector3.zero;
     //Made a float to adjust player speed
     [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float jumpForce = 3f;
+    [SerializeField][Range(0f, 2f)] float rayLength = 1.2f;
 
 //Calls the Awake method to save objects/components to their refernce holder
     private void Awake(){
@@ -35,6 +37,8 @@ public class PlayerController : MonoBehaviour{
         input.PlayerMovement.Move.performed += onMovementPerformed;
         //the input is subscribing to the onMovementCancelled event.
         input.PlayerMovement.Move.canceled += onMovementCancelled;
+        //the input is subscribing to the onMovementPerformed event.
+        input.PlayerMovement.Jump.performed += onJumpPerformed;
     }//closes onEnable
 
     private void OnDisable(){
@@ -44,8 +48,14 @@ public class PlayerController : MonoBehaviour{
         input.PlayerMovement.Move.performed -= onMovementPerformed;
         //the input is unsubscribing to the onMovementCancelled event.
         input.PlayerMovement.Move.canceled -= onMovementCancelled;
+        //the input is subscribing to the onMovementPerformed event.
+        input.PlayerMovement.Jump.performed += onJumpPerformed;
     }//Close onDisable
 
+    private void Update(){
+        //Draws a red line under the player's position
+        Debug.DrawLine(transform.position, transform.position + (-transform.up) * rayLength , Color.red);
+    }
     //==Because we want to make sure rigid body calculations are going to be correct, were doing a fixed update
     private void FixedUpdate(){//Fixed Update already uses time.DeltaTime
         //Sets the movement of the objects
@@ -63,5 +73,12 @@ public class PlayerController : MonoBehaviour{
         //movementVector3 gets set to zero
         movementVector3 = Vector3.zero;
     }//closes the onMovecancled
+
+    public void onJumpPerformed(InputAction.CallbackContext value){
+        //The value that was read gets saved to movementVector3
+        movementVector3 = value.ReadValue<Vector3>();
+        //This is used to add a force to the player's rigidbody
+        rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
+    }//Closes the onMovePerformed
 
 }//closes the class
