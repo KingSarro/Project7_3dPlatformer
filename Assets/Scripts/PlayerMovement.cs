@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour{
     private void FixedUpdate(){//Fixed Update already uses time.DeltaTime
         //Sets the movement of the objects
         rb.velocity = movementVector3 * moveSpeed;
+        //rb.AddForce(movementVector3*moveSpeed, ForceMode.Force);
     }//closes fixed update
 
     //Checks if the assaigned input is being triggered and traking it's value
@@ -76,9 +77,9 @@ public class PlayerController : MonoBehaviour{
 
     public void onJumpPerformed(InputAction.CallbackContext value){
         //The value that was read gets saved to movementVector3
-        movementVector3 = value.ReadValue<Vector3>();
+        movementVector3 += value.ReadValue<Vector3>().normalized * jumpForce * Time.deltaTime;
         //This is used to add a force to the player's rigidbody
-        rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
+        //rb.AddForce(Vector3.up*jumpForce, ForceMode.Impulse);
     }//Closes the onMovePerformed
 
 }//closes the class
