@@ -3,21 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour{
+    Rigidbody rb;
     [SerializeField] float speed = 1.0f;
+    float vMovement;
+    float hMovement;
     // Start is called before the first frame update
-    void Start(){
-        
+    private void Start(){
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update(){
+    private void Update(){
         //Vertical Movement
-        float vMovement = Input.GetAxis("Vertical") * speed;
-        Vector3 movementV = vMovement * Vector3.up;
-        transform.position += movementV * Time.deltaTime;
+        vMovement = Input.GetAxis("Vertical");
         //Horizontal Movement
-        float hMovement = Input.GetAxis("Horizontal") * speed;
-        Vector3 movementH = hMovement * Vector3.right;
-        transform.position += movementH * Time.deltaTime;
+        hMovement = Input.GetAxis("Horizontal");
     }
+
+    //Rigidbody stuff should go in fixed update
+    private void FixedUpdate(){
+        // !* Transform.up is local/instance up, and vector3.up is world up
+        Vector3 movement = ((transform.forward * vMovement) + (transform.right * hMovement)).normalized * speed;//normalize so magnitudes stay the same 
+        movement.y = rb.velocity.y; //Resets the y position to the current y position
+        //Adjust the velocity of the player
+        rb.velocity = movement;
+    }
+
 }
