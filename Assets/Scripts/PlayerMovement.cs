@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] float moveSpeed = 5f;
     [SerializeField] float jumpForce = 3f;
     [SerializeField][Range(0f, 2f)] float rayLength = 1.2f;
+    [SerializeField] Animator anim;
 
 //Calls the Awake method to save objects/components to their refernce holder
     private void Awake(){
@@ -55,6 +56,8 @@ public class PlayerController : MonoBehaviour{
     private void Update(){
         //Draws a red line under the player's position
         Debug.DrawLine(transform.position, transform.position + (-transform.up) * rayLength , Color.red);
+        //Sets the speed to vector
+        anim.SetFloat("speed", movementVector3.sqrMagnitude);
     }
     //==Because we want to make sure rigid body calculations are going to be correct, were doing a fixed update
     private void FixedUpdate(){//Fixed Update already uses time.DeltaTime
