@@ -1,0 +1,13 @@
+    private void doNothingWithThisMethod(){
+        //==This is one way to implement the raycast collision
+        //If the raycast hists something (looking for the ground)
+        if(Physics.Raycast(transform.position, -Vector3.up, rayLength)){
+            //Sets onGround to true;
+            onGround = true;
+        }
+        //If the rayCast doesn't hit anything
+        else{
+            //Sets onGround to false;
+            onGround = false;
+        }
+    }

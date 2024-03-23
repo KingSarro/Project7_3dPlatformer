@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 481415980}
   - component: {fileID: 481415979}
   - component: {fileID: 481415978}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,6 +562,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  jumpForce: 10
+  rayLength: 0.8
+  enviornmentLayers:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
