@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] LayerMask enviornmentLayers; // used to specify the layers allowed to jump off of
     //=----Camera Based Movement----=//
     Transform cam; //a ference for the camera game object
+    //=-----Animations----=//
+    [SerializeField] Animator anim;
 
     // Start is called before the first frame update
     private void Start(){
@@ -57,10 +59,14 @@ public class PlayerController : MonoBehaviour{
 
 
         // !* Transform.up is local/instance up, and vector3.up is world up
-        Vector3 movement = ((forwardRelative) + (rightRelative)).normalized * speed;//normalize so magnitudes stay the same 
-        movement.y = rb.velocity.y; //Resets the y position to the current y position
+        Vector3 forwardMovement = ((forwardRelative) + (rightRelative)).normalized * speed;//normalize so magnitudes stay the same 
+        forwardMovement.y = rb.velocity.y; //Resets the y position to the current y position
         //Adjust the velocity of the player
-        rb.velocity = movement;
+        rb.velocity = forwardMovement;
+        //Sets the animators variable Speed to the magnitude value of forwardMovement
+        anim.SetFloat("speed", forwardMovement.magnitude);//Magnitude takes into account how much you're moving in all directions
+        //Sets the animations forward to the character's forward
+        anim.transform.forward = forwardMovement;
     }
 
 }
