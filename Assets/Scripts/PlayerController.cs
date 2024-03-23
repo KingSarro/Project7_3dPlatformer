@@ -15,11 +15,13 @@ public class PlayerController : MonoBehaviour{
     [SerializeField][Range(0.1f, 2.0f)] float rayLength = 0.8f;
     private bool onGround = false;
     [SerializeField] LayerMask enviornmentLayers; // used to specify the layers allowed to jump off of
-
+    //=----Camera Based Movement----=//
+    Transform cam; //a ference for the camera game object
 
     // Start is called before the first frame update
     private void Start(){
         rb = GetComponent<Rigidbody>(); //Saves the rigidbody attached to this object to this reference
+        cam = Camera.main.transform;// Uses the camera keyword to get the transform of the camera object, the save to the camera reference
     }
 
     // Update is called once per frame
@@ -42,8 +44,20 @@ public class PlayerController : MonoBehaviour{
 
     //Rigidbody stuff should go in fixed update
     private void FixedUpdate(){
+        Vector3 camForward = cam.forward; //Get the values camera considers forward
+        Vector3 camRight = cam.right; //Get the values camera considers right
+        camForward.y  = 0;
+        camForward.Normalize();
+        camRight.y = 0;
+        camRight.Normalize();
+
+        //
+        Vector3 forwardRelative = camForward * vMovement;
+        Vector3 rightRelative = camRight * hMovement;
+
+
         // !* Transform.up is local/instance up, and vector3.up is world up
-        Vector3 movement = ((transform.forward * vMovement) + (transform.right * hMovement)).normalized * speed;//normalize so magnitudes stay the same 
+        Vector3 movement = ((forwardRelative) + (rightRelative)).normalized * speed;//normalize so magnitudes stay the same 
         movement.y = rb.velocity.y; //Resets the y position to the current y position
         //Adjust the velocity of the player
         rb.velocity = movement;
