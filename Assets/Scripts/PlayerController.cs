@@ -35,7 +35,9 @@ public class PlayerController : MonoBehaviour{
 
         //Checking for the jump input and if player is on ground
         if(Input.GetButtonDown("Jump") && onGround){
+            
             rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse); //Add force to the rigidbody
+            anim.SetTrigger("jump");
         }
 
         //Drays a debug line to visualize the raycast position
