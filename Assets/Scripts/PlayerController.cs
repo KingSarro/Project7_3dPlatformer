@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour{
     //======Initializations======//
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour{
     Transform cam; //a ference for the camera game object
     //=-----Animations----=//
     [SerializeField] Animator anim;
+    //=----SceneManagement----=//
+    [SerializeField] int scentToTransitionTo = 0;
 
     // Start is called before the first frame update
     private void Start(){
@@ -38,6 +41,8 @@ public class PlayerController : MonoBehaviour{
             
             rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse); //Add force to the rigidbody
             anim.SetTrigger("jump");
+
+            SceneManager.LoadScene(scentToTransitionTo);
         }
 
         //Drays a debug line to visualize the raycast position
