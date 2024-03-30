@@ -22,9 +22,15 @@ public class PlayerController : MonoBehaviour{
     [SerializeField] Animator anim;
     //=----SceneManagement----=//
     [SerializeField] int scentToTransitionTo = 0;
+    //=----Scriptable Objects----=//
+    [SerializeField] PlayerStats stats;
 
+
+
+    //=====Starts and Updates=====//
     // Start is called before the first frame update
     private void Start(){
+        SceneManager.LoadScene("UI", LoadSceneMode.Additive);
         rb = GetComponent<Rigidbody>(); //Saves the rigidbody attached to this object to this reference
         cam = Camera.main.transform;// Uses the camera keyword to get the transform of the camera object, the save to the camera reference
     }
@@ -74,6 +80,8 @@ public class PlayerController : MonoBehaviour{
         anim.SetFloat("speed", forwardMovement.magnitude);//Magnitude takes into account how much you're moving in all directions
         //Sets the animations forward to the character's forward
         anim.transform.forward = forwardMovement;
+
+        stats.curHealth -= 1.0f * 0.1f * Time.deltaTime;
     }
 
 }
