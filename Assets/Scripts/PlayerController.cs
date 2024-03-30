@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour{
     //=-----Animations----=//
     [SerializeField] Animator anim;
     //=----SceneManagement----=//
-    [SerializeField] int scentToTransitionTo = 0;
+    ////[SerializeField] int scentToTransitionTo = 0;
     //=----Scriptable Objects----=//
     [SerializeField] PlayerStats stats;
 
@@ -43,12 +43,9 @@ public class PlayerController : MonoBehaviour{
         hMovement = Input.GetAxis("Horizontal");
 
         //Checking for the jump input and if player is on ground
-        if(Input.GetButtonDown("Jump") && onGround){
-            
+        if(Input.GetButtonDown("Jump") && onGround){    
             rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse); //Add force to the rigidbody
             anim.SetTrigger("jump");
-
-            SceneManager.LoadScene(scentToTransitionTo);
         }
 
         //Drays a debug line to visualize the raycast position
@@ -80,8 +77,6 @@ public class PlayerController : MonoBehaviour{
         anim.SetFloat("speed", forwardMovement.magnitude);//Magnitude takes into account how much you're moving in all directions
         //Sets the animations forward to the character's forward
         anim.transform.forward = forwardMovement;
-
-        stats.curHealth -= 1.0f * 0.1f * Time.deltaTime;
     }
 
 }
